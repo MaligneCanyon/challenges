@@ -32,9 +32,11 @@ class Octal
   end
 
   def to_decimal
+    base = 8
     @str.chars.map.with_index do |char, ndx|
-      return 0 unless ('0'..'7').include?(char)
-      char.to_i * 8**(@str.size - ndx - 1)
+      # return 0 unless ('0'..'7').include?(char)
+      return 0 unless ('0'...base.to_s).include?(char)
+      char.to_i * base**(@str.size - ndx - 1)
     end.sum
   end
 end
