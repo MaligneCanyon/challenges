@@ -6,15 +6,15 @@
 # - translate the input str to a PigLatin str and output the result
 # rules:
 # - Rule 1: If a word begins with a vowel sound, add an "ay" sound to the end of the word.
+#   - vowel sound if word begins w/
+#     - a vowel
+#     - 'yt'
+#     - 'x' and another consonant
 # - Rule 2: If a word begins with a consonant sound, move it to the end of the word, and then add an
 #     "ay" sound to the end of the word.
-# - vowel sound if word begins w/
-#   - a vowel
-#   - 'yt'
-#   - 'x' and another consonant
-# - consonant sound includes the first letter (a consonant) and
-#   - all subsequent consecutive consonants
-#   - 'u' (when following a 'q')
+#   - consonant sound includes the first letter (a consonant) and
+#     - all subsequent consecutive consonants
+#     - 'u' (when following a 'q')
 # struct:
 # - arr (to hold words from a phrase)
 # - str (for individual words)
@@ -33,8 +33,7 @@
 
 class PigLatin
   def self.translate(str)
-    words = str.split(' ') # for phrases
-    words.map! do |word|
+    str.split(' ').map do |word| # split phrases into an arr of words
       unless word.start_with?(/[aeiou]/i, /yt/i, /x[^aeiou]/i) # a consonant sound unless ...
         (0..word.size).each do |ndx|
           if word[ndx] =~ /[aeiou]/i # we found the first vowel
@@ -45,8 +44,7 @@ class PigLatin
         end
       end
       word += 'ay'
-    end
-    words.join(' ')
+    end.join(' ')
   end
 end
 

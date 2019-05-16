@@ -6,7 +6,7 @@
 # - convert a str rep of an octal num to a decimal num
 # rules:
 # - multiply each octal char by 8**(str.size - ndx - 1)
-#   where ndx is the char''s l-to-r position in the octal str
+#   where ndx is the char's l-to-r position in the octal str
 #   - ex. 233 # octal
 #     = 2*8^2 + 3*8^1 + 3*8^0
 #     = 2*64  + 3*8   + 3*1
@@ -27,16 +27,16 @@
 # - rtn the sum
 
 class Octal
+  BASE = 8
+
   def initialize(str)
     @str = str
   end
 
   def to_decimal
-    base = 8
     @str.chars.map.with_index do |char, ndx|
-      # return 0 unless ('0'..'7').include?(char)
-      return 0 unless ('0'...base.to_s).include?(char)
-      char.to_i * base**(@str.size - ndx - 1)
+      return 0 unless ('0'...BASE.to_s).include?(char)
+      char.to_i * BASE**(@str.size - ndx - 1)
     end.sum
   end
 end
@@ -49,6 +49,7 @@ require 'minitest/autorun'
 
 class OctalTest < Minitest::Test
   def test_octal_1_is_decimal_1
+    # skip
     assert_equal 1, Octal.new('1').to_decimal
   end
 

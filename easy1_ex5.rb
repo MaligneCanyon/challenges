@@ -1,8 +1,10 @@
+# ::to
+# ====
 # inputs:
-# - arr of ints (unspecified number of elems)
+# - arr of ints (an unspecified number of inputs)
 # - int (a max num)
 # outputs:
-# - int
+# - int (a sum)
 # reqs:
 # - given a list of ints (defaulting to [3, 5]) and a max value
 #   - find all multiples of each int up to but excluding the max value
@@ -21,29 +23,37 @@
 # - rtn the sum
 
 class SumOfMultiples
-  def initialize(*arr)
+  def initialize(*arr) # arg is an unbundled list of elems
     @arr = arr
   end
+
+  # def self.to(arr=[3, 5], max)
+  #   new_arr = []
+  #   arr.each do |elem|
+  #     multiple = elem
+  #     while multiple < max
+  #       new_arr << multiple
+  #       multiple += elem
+  #     end
+  #   end
+  #   new_arr.uniq.sum
+  # end
 
   def self.to(arr=[3, 5], max)
     new_arr = []
     arr.each do |elem|
-      multiple = elem
-      while multiple < max
-        new_arr << multiple
-        multiple += elem
-      end
+      elem.step(by: elem, to: max - 1) { |multiple| new_arr << multiple }
     end
     new_arr.uniq.sum
   end
 
-  def to(max) # call the 'to' class method using the input list of ints
+  def to(max) # call the ::to class method using the input list of ints
     SumOfMultiples.to(@arr, max)
   end
 end
 
-p SumOfMultiples.to(20) == 78 # calls a class method
-p SumOfMultiples.new(3, 5).to(20) == 78 # calls an instance method
+p SumOfMultiples.to(20) == 78 # calls the ::to class method
+p SumOfMultiples.new(3, 5).to(20) == 78 # calls the #to instance method
 
 
 require 'minitest/autorun'
@@ -51,6 +61,7 @@ require 'minitest/autorun'
 
 class SumTest < Minitest::Test
   def test_sum_to_1
+    # skip
     assert_equal 0, SumOfMultiples.to(1)
   end
 

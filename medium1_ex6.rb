@@ -10,7 +10,7 @@ class School
 # outputs:
 # - hsh (sorted)
 # reqs:
-# - sort the hsh as per the rules
+# - sort the input hsh as per the rules and rtn the result
 # rules:
 # - grades should sort as 1, 2, 3, etc.
 # - students within a grade should be sorted alphabetically by name
@@ -24,7 +24,7 @@ class School
 
   def to_h
     # Hash#sort_by rtns an arr; call Array#to_h to convert back to a hsh
-    hsh = @hsh.sort_by { |k, v| k }.to_h
+    hsh = @hsh.sort_by { |k, _| k }.to_h
     hsh.transform_values { |value| value.sort }
   end
 
@@ -80,7 +80,7 @@ class SchoolTest < Minitest::Test
   end
 
   def test_add_student
-      # skip
+    # skip
     school.add('Aimee', 2)
     assert_equal({ 2 => ['Aimee'] }, school.to_h)
   end

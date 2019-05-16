@@ -1,3 +1,26 @@
+class InvalidCodonError < KeyError; end
+
+class Translation
+  CODEIN = {
+    AUG: 'Methionine',
+    UUU: 'Phenylalanine',
+    UUC: 'Phenylalanine',
+    UUA: 'Leucine',
+    UUG: 'Leucine',
+    UCU: 'Serine',
+    UCC: 'Serine',
+    UCA: 'Serine',
+    UCG: 'Serine',
+    UAU: 'Tyrosine',
+    UAC: 'Tyrosine',
+    UGU: 'Cysteine',
+    UGC: 'Cysteine',
+    UGG: 'Tryptophan',
+    UAA: 'STOP',
+    UAG: 'STOP',
+    UGA: 'STOP'
+  }
+
 # of_codon
 # --------
 # inputs:
@@ -12,11 +35,15 @@
 # - hsh
 # algo:
 # - construct a lookup table w/ codon keys and amino acid values
-# - fetch the amino acid from the hash for the input codon (key)
+# - fetch the amino acid from the hsh for the input codon (key)
 # - if the input codon str is not found
 #   - raise an err
 # - else
 #   - rtn the amino acid associated w/ the codon
+
+  def self.of_codon(codon)
+    CODEIN.fetch(codon.to_sym) { raise InvalidCodonError }
+  end
 
 # of_rna
 # ------
@@ -45,55 +72,6 @@
 #     - add the amino acid to the new_arr
 # - rtn the new_arr
 
-# splice
-# ------
-# input:
-# - str
-# - int n (num of chars in each group that str is split into)
-# output:
-# - arr of char groups
-# reqs:
-# - split the str into substr that are n chars long
-# - place the substrs in an arr and rtn the arr
-# rules:
-# - n is always 3 in this exercise
-# struct:
-# - arr
-# algo:
-# - init a new_arr to []
-# - split the str into an arr of chars
-# - for each group of n chars in the arr
-#   - join the chars to form a substr
-#   - copy the substr to the new_arr
-# - rtn the new_arr
-
-
-class InvalidCodonError < KeyError; end
-class Translation
-  CODEIN = {
-    AUG: 'Methionine',
-    UUU: 'Phenylalanine',
-    UUC: 'Phenylalanine',
-    UUA: 'Leucine',
-    UUG: 'Leucine',
-    UCU: 'Serine',
-    UCC: 'Serine',
-    UCA: 'Serine',
-    UCG: 'Serine',
-    UAU: 'Tyrosine',
-    UAC: 'Tyrosine',
-    UGU: 'Cysteine',
-    UGC: 'Cysteine',
-    UGG: 'Tryptophan',
-    UAA: 'STOP',
-    UAG: 'STOP',
-    UGA: 'STOP'
-  }
-
-  def self.of_codon(codon)
-    CODEIN.fetch(codon.to_sym) { raise InvalidCodonError }
-  end
-
   def self.of_rna(strand)
     amino_acids = []
     # codons = self.splice(strand, 3)
@@ -105,6 +83,28 @@ class Translation
     end
     amino_acids
   end
+
+# splice
+# ------
+# input:
+# - str
+# - int n (num of chars in each substr of str)
+# output:
+# - arr of substrs
+# reqs:
+# - split the str into substrs that are n chars long
+# - place the substrs in an arr and rtn the arr
+# rules:
+# - n is always 3 in this exercise
+# struct:
+# - arr
+# algo:
+# - init an new_arr to []
+# - split the str into an arr of chars
+# - for each group of n chars in the arr
+#   - join the chars to form a substr
+#   - copy the substr to the new_arr
+# - rtn the new_arr
 
   # def self.splice(str, n)
   #   new_arr = []

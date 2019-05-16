@@ -8,9 +8,8 @@
 # rules:
 # - only count difs upto the min str length
 # struct:
-# - arr
+# - str
 # algo:
-# - convert the strs to arrs of chars
 # - init a counter at 0
 # - determine the min str size
 # - for each ndx from 0 to the min str size
@@ -21,20 +20,19 @@
 
 class DNA
   def initialize(strand1)
-    @strand1 = strand1.chars
+    @strand1 = strand1
   end
 
   def hamming_distance(strand2)
-    @strand2 = strand2.chars
     counter = 0
-    min_size = [@strand1.size, @strand2.size].min
+    min_size = [@strand1.size, strand2.size].min
     (0...min_size).each do |ndx|
-      counter += 1 unless @strand1[ndx] == @strand2[ndx]
+      counter += 1 unless @strand1[ndx] == strand2[ndx]
     end
     counter
   end
 end
-# p DNA.new('GAGCCTACTAACGGGAT').hamming_distance('CATCGTAATGACGGCCT') == 7
+p DNA.new('GAGCCTACTAACGGGAT').hamming_distance('CATCGTAATGACGGCCT') == 7
 
 
 require 'minitest/autorun'

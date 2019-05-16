@@ -18,7 +18,6 @@
 #   - upcase! the pa
 #   - skip the pa if it is identical to the input word
 #   - skip the pa unless it and the input word are the same size
-#   - skip the pa if it is already in the new_arr
 #   - split the pa into an arr of chars
 #   - for each char in the input word
 #     - if the pa contains the char
@@ -27,44 +26,44 @@
 #     - add the copy of the pa to the new_arr
 # - rtn the new_arr
 
-# class Anagram
-#   def initialize(word)
-#     @word = word
-#   end
-
-#   def match(possible_anagrams)
-#     @word.upcase!
-#     new_arr = []
-#     possible_anagrams.each do |pa|
-#       pa_copy = pa.clone
-#       pa.upcase!
-#       next if @word == pa
-#       next unless @word.size == pa.size
-#       next if new_arr.map(&:upcase).include?(pa)
-#       arr = pa.chars
-#       @word.chars.each do |char|
-#         arr.delete_at(arr.index(char)) if arr.include?(char)
-#       end
-#       new_arr << pa_copy if arr.empty?
-#     end
-#     new_arr
-#   end
-# end
 
 class Anagram
   def initialize(word)
     @word = word.upcase # pre-process the word
   end
 
+  # def match(possible_anagrams)
+  #   new_arr = []
+  #   possible_anagrams.each do |pa|
+  #     pa_copy = pa.clone
+  #     pa.upcase!
+  #     next if @word == pa
+  #     next unless @word.size == pa.size
+  #     arr = pa.chars
+  #     @word.chars.each do |char|
+  #       arr.delete_at(arr.index(char)) if arr.include?(char)
+  #     end
+  #     new_arr << pa_copy if arr.empty?
+  #   end
+  #   new_arr
+  # end
+
+  # def match(possible_anagrams)
+  #   new_arr = []
+  #   possible_anagrams.each do |pa|
+  #     pa_copy = pa.clone
+  #     pa.upcase!
+  #     next if @word == pa || @word.size != pa.size
+  #     new_arr << pa_copy if @word.chars.sort == pa.chars.sort
+  #   end
+  #   new_arr
+  # end
+
   def match(possible_anagrams)
-    new_arr = []
-    possible_anagrams.each do |pa|
-      pa_copy = pa.clone
-      pa.upcase!
-      next if @word == pa || @word.size != pa.size || new_arr.map(&:upcase).include?(pa)
-      new_arr << pa_copy if @word.chars.sort == pa.chars.sort
+    possible_anagrams.select do |pa|
+      @word != pa.upcase && @word.size == pa.size &&
+      @word.chars.sort == pa.upcase.chars.sort
     end
-    new_arr
   end
 end
 

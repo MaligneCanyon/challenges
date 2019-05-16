@@ -169,29 +169,31 @@ class OCR
   def build_ocr_arr
     # puts
     ocr_arr = []
-    ocr_lines = @text.split("\n\n")
+    ocr_lines = @text.split("\n\n") # lines of OCR chars are sep'd by a blank line
     ocr_lines.each do |line|
       # puts "line ==\n#{line}"
 
-      rows = line.split("\n")
+      rows = line.split("\n") # each line of OCR chars is made up of multiple rows of text
       # puts "rows ==\n#{rows}"
 
       # map the arr of cols into each row
       ocr_size = 0
       rows.map! do |row|
-        cols = row.scan(/.{1,3}/)
-        # ocr_size is the num of cols (thus the num of OCR chars) in each row
-        cols = (cols == [] ? [""] : cols)
-        # puts "cols == #{cols}"
-        ocr_size += cols.size
-        cols
+        ocr_cols = row.scan(/.{1,3}/) # each OCR char is made up of 1 to 3 cols of text
+
+        # ocr_size is the num of ocr_cols (thus a rep of the num of OCR chars) in each row
+        ocr_cols = [""] if ocr_cols == []
+
+        # puts "ocr_cols == #{ocr_cols}"
+        ocr_size += ocr_cols.size
+        ocr_cols
       end
       # puts "rows2 ==\n#{rows}"
       ocr_size /= 3 # 3 rows for each OCR char
       # p "ocr_size == #{ocr_size}"
 
-      # build a str rep of each OCR char that's in the current line and copy
-      # that str to the ocr_arr
+      # build a str rep of each OCR char that's in the current line of OCR
+      # chars and copy that str to the ocr_arr
       (0...ocr_size).each do |ocr_digit|
         ocr_str = ''
         rows.each do |row|
@@ -201,14 +203,12 @@ class OCR
           # if the row has trailing spaces (padding for the next OCR char),
           # strip off the padding
           str = row[ocr_digit]
-          ocr_str += str.sub(/( +)$/, '') + "\n"
+          ocr_str += str.sub(/( )+$/, '') + "\n"
         end
         # p "ocr_str == '#{ocr_str}'"
         ocr_arr << ocr_str
       end
-      # ocr_arr
-      ocr_arr << ',' unless line == ocr_lines.last
-
+      ocr_arr << ',' unless line == ocr_lines.last # put a comma btwn lines of OCR chars
     end
     ocr_arr
   end
@@ -241,7 +241,7 @@ class OCRTest < Minitest::Test
   end
 
   def test_recognize_one
-    # # skip
+    # skip
     text = <<-NUMBER.chomp
 
   |
@@ -352,7 +352,7 @@ class OCRTest < Minitest::Test
   end
 
   def test_identify_10
-    # # skip
+    # skip
     text = <<-NUMBER.chomp
     _
   || |

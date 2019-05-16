@@ -1,10 +1,3 @@
-# Write a program that will take a decimal number, and convert it to the appropriate sequence
-# of events for a secret handshake.
-
-# There are 10 types of people in the world: Those who understand binary, and those who dont.
-# You and your fellow cohort of those in the "know" when it comes to binary decide to come up
-# with a secret "handshake".
-
 # inputs:
 # - int or str
 # outputs:
@@ -32,7 +25,7 @@
 #   - rtn [] unless (0..31).include?(int)
 #   - convert the int to a str
 # - else
-#   - rtn [] unless str.chars.all? { |char| char =~ /[01]/ }
+#   - rtn [] if str.size > 5 or str =~ /[^01]/
 # - reverse the str
 # - for each char in the str
 #   - if the char is a '1'
@@ -42,7 +35,6 @@
 #       - add the appropriate sequence to the arr
 #         - arr << constant_arr[ndx]
 # - rtn the arr
-
 
 class SecretHandshake
   CMDS = ["wink", "double blink", "close your eyes", "jump"].freeze
@@ -62,7 +54,7 @@ class SecretHandshake
     end
 
     arr = []
-    str.reverse!.chars.each_with_index do |char, ndx|
+    str.reverse.chars.each_with_index do |char, ndx|
       if char == '1'
         if ndx == 4
           arr.reverse!
@@ -82,10 +74,11 @@ handshake = SecretHandshake.new "11001"
 p handshake.commands # => ["jump","wink"]
 
 handshake = SecretHandshake.new "11111111001"
-p handshake.commands # => ["jump","wink"]
+p handshake.commands # => []
 
 handshake = SecretHandshake.new "q2ep1"
-p handshake.commands # => ["jump","wink"]
+p handshake.commands # => []
+
 
 require 'minitest/autorun'
 # require_relative 'secret_handshake'

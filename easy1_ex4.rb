@@ -1,16 +1,16 @@
-# this is the same problem as easy1_ex3, except base == 3 here
+# this is the same problem as easy1_ex3, except BASE == 3 here
 
 class Trinary
+  BASE = 3
+
   def initialize(str)
     @str = str
   end
 
   def to_decimal
-    base = 3
     @str.chars.map.with_index do |char, ndx|
-      # return 0 unless ('0'..'7').include?(char)
-      return 0 unless ('0'...base.to_s).include?(char)
-      char.to_i * base**(@str.size - ndx - 1)
+      return 0 unless ('0'...BASE.to_s).include?(char)
+      char.to_i * BASE**(@str.size - ndx - 1)
     end.sum
   end
 end
@@ -27,6 +27,7 @@ require 'minitest/autorun'
 
 class TrinaryTest < Minitest::Test
   def test_trinary_1_is_decimal_1
+    # skip
     assert_equal 1, Trinary.new('1').to_decimal
   end
 

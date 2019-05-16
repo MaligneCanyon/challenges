@@ -55,8 +55,9 @@ class CircularBuffer
 
   def incr(ndx)
     ndx += 1
-    ndx = 0 if ndx == arr.size # rollover
-    ndx
+    # ndx = 0 if ndx == arr.size # rollover
+    # ndx
+    ndx %= arr.size # handle rollover
   end
 end
 

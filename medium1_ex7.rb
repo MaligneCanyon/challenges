@@ -1,10 +1,10 @@
 # day
 # ===
 # inputs:
-# - sym (weekday)
-# - sym (schedule)
-# - @year
+# - sym (reqd_weekday)
+# - sym (schedule; the week or portion of the month)
 # - @month
+# - @year
 # outputs:
 # - Date obj
 # reqs:
@@ -27,20 +27,22 @@
 #     - calc the min and max day in the schedule
 # - for the min to max day in the schedule
 #   - create a Date obj
-#   - convert the weekday to a str
-#   - append a '?' to the str and convert it back to a sym
-#   - call the send method on the Date obj, passing it the revised weekday sym
-#   - rtn the Date obj is a infact the specified weekday
+#   - test whether the reqd_weekday matches the Date obj weekday
+#     - convert the reqd_weekday to a str
+#     - append a '?' to the str and convert it back to a sym
+#     - call the send method on the Date obj, passing in the (revised)
+#       reqd_weekday sym
+#     - rtn the Date obj if the reqd_weekday matches the Date obj weekday
 
 require 'date'
 class Meetup
   SCHEDULE = {
-    :first  => (1..7).to_a.freeze,
-    :second => (8..14).to_a.freeze,
-    :third  => (15..21).to_a.freeze,
-    :fourth => (22..28).to_a.freeze,
-    # :last   => (29..31).to_a.freeze, # not necessarily
-    :teenth => (13..19).to_a.freeze
+    :first  => (1..7).freeze,
+    :second => (8..14).freeze,
+    :third  => (15..21).freeze,
+    :fourth => (22..28).freeze,
+    # :last   => (29..31).freeze, # not necessarily true
+    :teenth => (13..19).freeze
   }
 
   def initialize(month, year)
@@ -51,11 +53,11 @@ class Meetup
   def day(weekday, schedule)
     if schedule == :last
       last_day = Date.new(@year, @month, -1).day
-      min, max = last_day - 6, last_day
+      range = ((last_day - 6)..last_day)
     else
-      min, max = SCHEDULE[schedule].first, SCHEDULE[schedule].last
+      range = SCHEDULE[schedule]
     end
-    (min..max).each do |day|
+    range.each do |day|
       # p "#{@year}, #{@month}, #{day}"
       date = Date.new(@year, @month, day)
       symbol = (weekday.to_s + '?').to_sym
@@ -64,6 +66,7 @@ class Meetup
     # raise StandardError, 'date not found'
   end
 end
+
 p Meetup.new(5, 2013).day(:monday, :teenth)
 p Meetup.new(4, 2019).day(:monday, :teenth)
 

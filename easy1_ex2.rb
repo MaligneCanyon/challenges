@@ -45,6 +45,7 @@ require 'minitest/autorun'
 
 class SieveTest < Minitest::Test
   def test_a_few_primes
+    # skip
     expected = [2, 3, 5, 7]
     assert_equal expected, Sieve.new(10).primes
   end

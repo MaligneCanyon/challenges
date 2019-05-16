@@ -2,13 +2,13 @@
 # - str
 # - n
 # outputs:
-# - strs (since leading zeros matter)
+# - arr (w/ subarrs of ints)
 # reqs:
 # - take a str (a str rep of an int)
-# - rtn a list of consecutive n-char substrs of that str
+# - rtn a list of consecutive n-char subarrs of that str
 # - rtn err if n > str.size
 # rules:
-# - should rtn str.size - n substrs
+# - should rtn (str.size - n) subarrs
 # struct:
 # - str
 # - arr
@@ -47,7 +47,7 @@ end
 
 p Series.new('01234').slices(3) == [[0,1,2], [1,2,3], [2,3,4]]
 p Series.new('01234').slices(4) == [[0,1,2,3], [1,2,3,4]]
-# p Series.new('01234').slices(6) == [] # or raises ArgumentError
+# p Series.new('01234').slices(6) # raises ArgumentError
 
 
 require 'minitest/autorun'
